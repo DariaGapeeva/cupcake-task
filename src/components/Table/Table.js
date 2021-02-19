@@ -1,43 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import Row from "./Row/Row";
+import RowTable from "./RowTable/RowTable";
 
-const TableStyled = styled.table`
-  width: 90%;
-  border-collapse: collapse;
-  margin: 0px 0px 0px 30px;
-`;
-const TH = styled.th`
-  border: 1px solid #000;
-  width: 25%;
+const Container = styled.div`
+  margin: 50px auto;
+  display: flex;
+  width: 800px;
+  height: 560px;
+  font-size: 24px;
+  font-weight: 500;
+  @media (max-width: 992.98px) {
+    width: 598px;
+    font-size: 20px;
+  }
+  @media (max-width: 768.98px) {
+    width: 398px;
+    height: 280px;
+    font-size: 14px;
+  }
 `;
 
 const Table = (props) => {
-  const titles = [
-    "RUB/CUPCAKE",
-    "USD/CUPCAKE",
-    "EUR/CUPCAKE",
-    "RUB/USD",
-    "RUB/EUR",
-    "EUR/USD",
-  ];
-  return (
-    <div>
-      <TableStyled>
-        <thead>
-          <tr>
-            <TH>Pair name/market</TH>
-            <TH>First</TH>
-            <TH>Second</TH>
-            <TH>Third</TH>
-          </tr>
-        </thead>
-      </TableStyled>
+  useEffect(() => props.checkRowValues, [props.markets]);
 
-      {titles.map((title, index) => (
-        <Row key={index} title={title} />
+  const titles = Object.keys(props.markets[0].rates);
+
+  return (
+    <Container>
+      <RowTable
+        key={0}
+        values={titles}
+        thTitle={"Pair name/market"}
+        width={30}
+      />
+
+      {props.markets.map((market) => (
+        <RowTable
+          key={market.id}
+          values={Object.values(market.rates)}
+          thTitle={market.name}
+          maxValue={props.maxValue}
+          width={23.3}
+          id={market.id}
+        />
       ))}
-    </div>
+    </Container>
   );
 };
 
