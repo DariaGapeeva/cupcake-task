@@ -21,15 +21,11 @@ const Container = styled.div`
 `;
 
 const Table = (props) => {
-  useEffect(() => props.checkRowValues, [props.markets]);
-
-  const titles = Object.keys(props.markets[0].rates);
-
   return (
     <Container>
       <RowTable
         key={0}
-        values={titles}
+        values={props.titles}
         thTitle={"Pair name/market"}
         width={30}
       />
@@ -39,7 +35,7 @@ const Table = (props) => {
           key={market.id}
           values={Object.values(market.rates)}
           thTitle={market.name}
-          maxValue={props.maxValue}
+          minValue={props.minValue}
           width={23.3}
           id={market.id}
         />

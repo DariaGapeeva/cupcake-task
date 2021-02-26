@@ -1,7 +1,6 @@
 import { api } from "./../API/api";
 
 const TABLE_SET_VALUES = "TABLE_SET_VALUES";
-const TABLE_CHECK_ROW_VALUES = "TABLE_CHECK_ROW_VALUES";
 
 const initialState = {
   markets: [
@@ -46,14 +45,6 @@ const initialState = {
       timestamp: 0,
     },
   ],
-  maxValue: {
-    "RUB/CUPCAKE": null,
-    "USD/CUPCAKE": null,
-    "EUR/CUPCAKE": null,
-    "RUB/USD": null,
-    "RUB/EUR": null,
-    "EUR/USD": null,
-  },
 };
 
 const tableReducer = (state = initialState, action) => {
@@ -87,34 +78,6 @@ const tableReducer = (state = initialState, action) => {
       };
     }
 
-    case TABLE_CHECK_ROW_VALUES: {
-      const titles = Object.keys(state.maxValue);
-      let arrays = titles.map((title) => {
-        let array = [];
-        for (let item of state.markets) {
-          array.push(item.rates[title]);
-        }
-        return array;
-      });
-
-      let newArray = arrays.map((item) => {
-        if (Math.min(...item) === Math.max(...item)) return null;
-        return item.indexOf(Math.min(...item)) + 1;
-      });
-
-      return {
-        ...state,
-        maxValue: {
-          "RUB/CUPCAKE": newArray[0],
-          "USD/CUPCAKE": newArray[1],
-          "EUR/CUPCAKE": newArray[2],
-          "RUB/USD": newArray[3],
-          "RUB/EUR": newArray[4],
-          "EUR/USD": newArray[5],
-        },
-      };
-    }
-
     default:
       return state;
   }
@@ -126,8 +89,6 @@ const setValuesAC = (id, rates, timestamp) => ({
   rates,
   timestamp,
 });
-
-export const checkRowValuesAC = () => ({ type: TABLE_CHECK_ROW_VALUES });
 
 export const setValuesThunk = (address, id) => {
   return async (dispatch) => {
@@ -141,6 +102,7 @@ export const setValuesThunk = (address, id) => {
       await dispatch(setValuesThunk(address, id));
     } else {
       dispatch(setValuesAC(id, response.data.rates, response.data.timestamp));
+
       await dispatch(setValuesThunk(address, id));
     }
   };

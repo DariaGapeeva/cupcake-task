@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const TableStyled = styled.table`
   width: ${(props) => props.width}%;
+
   border-collapse: collapse;
 
   background-color: #f2f2f2;
@@ -40,12 +41,12 @@ const RowTable = (props) => {
           <TR key={index}>
             <TD
               backgroundColor={
-                props.maxValue && props.maxValue[index] === props.id
+                props.minValue && props.minValue[index] === props.id
                   ? "#0091FF"
                   : "transparent"
               }
               color={
-                props.maxValue && props.maxValue[index] === props.id
+                props.minValue && props.minValue[index] === props.id
                   ? "#FFF"
                   : "###000"
               }
