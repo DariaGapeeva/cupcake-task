@@ -30,9 +30,21 @@ const TableContainer = (props) => {
       for (let item of state.table.markets) {
         array.push(item.rates[title]);
       }
-      return Math.min(...array) === Math.max(...array)
-        ? null
-        : array.indexOf(Math.min(...array)) + 1;
+
+      let result;
+
+      if (Math.min(...array) === Math.max(...array)) {
+        result = array.map((item) => null);
+      } else {
+        result = array.map((item, index) =>
+          item === Math.min(...array) ? index + 1 : null
+        );
+      }
+
+      return result;
+      //   return Math.min(...array) === Math.max(...array)
+      //     ? null
+      //     : array.indexOf(Math.min(...array)) + 1;
     });
     return value;
   });

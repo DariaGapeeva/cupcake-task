@@ -53,23 +53,17 @@ const tableReducer = (state = initialState, action) => {
       return {
         ...state,
         markets: state.markets.map((item) =>
-          item.id === action.id && action.timestamp > item.timestamp
+          item.id === action.id
             ? {
                 ...item,
                 rates: {
                   ...item.rates,
-                  "RUB/CUPCAKE": Math.round(action.rates.RUB * 100) / 100,
-                  "USD/CUPCAKE": Math.round(action.rates.USD * 100) / 100,
-                  "EUR/CUPCAKE": Math.round(action.rates.EUR * 100) / 100,
-                  "RUB/USD":
-                    Math.round((action.rates.RUB * 100) / action.rates.USD) /
-                    100,
-                  "RUB/EUR":
-                    Math.round((action.rates.RUB * 100) / action.rates.EUR) /
-                    100,
-                  "EUR/USD":
-                    Math.round((action.rates.EUR * 100) / action.rates.USD) /
-                    100,
+                  "RUB/CUPCAKE": action.rates["RUB/CUPCAKE"],
+                  "USD/CUPCAKE": action.rates["USD/CUPCAKE"],
+                  "EUR/CUPCAKE": action.rates["EUR/CUPCAKE"],
+                  "RUB/USD": action.rates["RUB/USD"],
+                  "RUB/EUR": action.rates["RUB/EUR"],
+                  "EUR/USD": action.rates["EUR/USD"],
                 },
                 timestamp: action.timestamp,
               }

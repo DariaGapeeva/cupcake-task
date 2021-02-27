@@ -29,6 +29,8 @@ const TD = styled.td`
 `;
 
 const RowTable = (props) => {
+  console.log(props.minValue);
+
   return (
     <TableStyled width={props.width}>
       <thead>
@@ -41,12 +43,12 @@ const RowTable = (props) => {
           <TR key={index}>
             <TD
               backgroundColor={
-                props.minValue && props.minValue[index] === props.id
+                props.minValue && props.minValue[index].includes(props.id)
                   ? "#0091FF"
                   : "transparent"
               }
               color={
-                props.minValue && props.minValue[index] === props.id
+                props.minValue && props.minValue[index].includes(props.id)
                   ? "#FFF"
                   : "###000"
               }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { responseTransformer } from "../common/functions";
 
 const instance = axios.create({
   baseURL: "http://localhost:3000/api/v1/",
@@ -8,7 +9,13 @@ const instance = axios.create({
 });
 
 export const api = {
-  setRates(address) {
-    return instance.get(`${address}`);
+  async setRates(address) {
+    try {
+      const response = await instance.get(`${address}`);
+      response.data.rates = responseTransformer(response.data.rates);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
   },
 };
