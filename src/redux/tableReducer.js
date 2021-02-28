@@ -1,6 +1,6 @@
-import { api } from "./../API/api";
-
 const TABLE_SET_VALUES = "TABLE_SET_VALUES";
+export const TABLE_SET_VALUES_FIRST = "TABLE_SET_VALUES_FIRST";
+export const TABLE_SET_VALUES_POLL = "TABLE_SET_VALUES_POLL";
 
 const initialState = {
   markets: [
@@ -74,34 +74,25 @@ const tableReducer = (state = initialState, action) => {
   }
 };
 
-const setValuesAC = (id, rates) => ({
+export const setValuesAC = (id, rates) => ({
   type: TABLE_SET_VALUES,
   id,
   rates,
 });
 
-export const setValuesFirstThunk = (address, id) => {
-  return async (dispatch) => {
-    let response = await api.setRates(address);
-    dispatch(setValuesAC(id, response.data.rates));
+export const setValuesFirstAC = (address, id) => {
+  return {
+    type: TABLE_SET_VALUES_FIRST,
+    address,
+    id,
   };
 };
 
-export const setValuesThunk = (address, id) => {
-  return async (dispatch) => {
-    let response = await api.setRates(address);
-
-    if (response.status == 502) {
-      await dispatch(setValuesThunk(address, id));
-    } else if (response.status != 200) {
-      console.log("ошибка");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      await dispatch(setValuesThunk(address, id));
-    } else {
-      dispatch(setValuesAC(id, response.data.rates));
-
-      await dispatch(setValuesThunk(address, id));
-    }
+export const setValuesPollAC = (address, id) => {
+  return {
+    type: TABLE_SET_VALUES_POLL,
+    address,
+    id,
   };
 };
 

@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
 import Table from "./Table";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setValuesFirstThunk,
-  setValuesThunk,
-} from "./../../redux/tableReducer";
+import { setValuesFirstAC, setValuesPollAC } from "./../../redux/tableReducer";
 
-const TableContainer = (props) => {
+const TableContainer = () => {
   useEffect(() => {
-    dispatch(setValuesFirstThunk("first", 1));
-    dispatch(setValuesFirstThunk("second", 2));
-    dispatch(setValuesFirstThunk("third", 3));
+    dispatch(setValuesFirstAC("first", 1));
+    dispatch(setValuesFirstAC("second", 2));
+    dispatch(setValuesFirstAC("third", 3));
   }, []);
 
   useEffect(() => {
-    dispatch(setValuesThunk("first/poll", 1));
-    dispatch(setValuesThunk("second/poll", 2));
-    dispatch(setValuesThunk("third/poll", 3));
+    dispatch(setValuesPollAC("first/poll", 1));
+    dispatch(setValuesPollAC("second/poll", 2));
+    dispatch(setValuesPollAC("third/poll", 3));
   }, []);
 
   const titles = [
