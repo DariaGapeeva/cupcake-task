@@ -1,9 +1,18 @@
 import React, { useEffect } from "react";
 import Table from "./Table";
 import { useDispatch, useSelector } from "react-redux";
-import { setValuesThunk } from "./../../redux/tableReducer";
+import {
+  setValuesFirstThunk,
+  setValuesThunk,
+} from "./../../redux/tableReducer";
 
 const TableContainer = (props) => {
+  useEffect(() => {
+    dispatch(setValuesFirstThunk("first", 1));
+    dispatch(setValuesFirstThunk("second", 2));
+    dispatch(setValuesFirstThunk("third", 3));
+  }, []);
+
   useEffect(() => {
     dispatch(setValuesThunk("first/poll", 1));
     dispatch(setValuesThunk("second/poll", 2));
@@ -42,9 +51,6 @@ const TableContainer = (props) => {
       }
 
       return result;
-      //   return Math.min(...array) === Math.max(...array)
-      //     ? null
-      //     : array.indexOf(Math.min(...array)) + 1;
     });
     return value;
   });

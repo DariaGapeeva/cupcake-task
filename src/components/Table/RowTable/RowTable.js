@@ -29,8 +29,6 @@ const TD = styled.td`
 `;
 
 const RowTable = (props) => {
-  console.log(props.minValue);
-
   return (
     <TableStyled width={props.width}>
       <thead>

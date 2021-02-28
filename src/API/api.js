@@ -10,12 +10,8 @@ const instance = axios.create({
 
 export const api = {
   async setRates(address) {
-    try {
-      const response = await instance.get(`${address}`);
-      response.data.rates = responseTransformer(response.data.rates);
-      return response;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const response = await instance.get(`${address}`);
+    response.data.rates = responseTransformer(response.data.rates);
+    return response;
   },
 };

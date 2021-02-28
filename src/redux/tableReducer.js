@@ -15,7 +15,6 @@ const initialState = {
         "RUB/EUR": 0,
         "EUR/USD": 0,
       },
-      timestamp: 0,
     },
 
     {
@@ -29,7 +28,6 @@ const initialState = {
         "RUB/EUR": 0,
         "EUR/USD": 0,
       },
-      timestamp: 0,
     },
     {
       id: 3,
@@ -42,7 +40,6 @@ const initialState = {
         "RUB/EUR": 0,
         "EUR/USD": 0,
       },
-      timestamp: 0,
     },
   ],
 };
@@ -77,12 +74,18 @@ const tableReducer = (state = initialState, action) => {
   }
 };
 
-const setValuesAC = (id, rates, timestamp) => ({
+const setValuesAC = (id, rates) => ({
   type: TABLE_SET_VALUES,
   id,
   rates,
-  timestamp,
 });
+
+export const setValuesFirstThunk = (address, id) => {
+  return async (dispatch) => {
+    let response = await api.setRates(address);
+    dispatch(setValuesAC(id, response.data.rates));
+  };
+};
 
 export const setValuesThunk = (address, id) => {
   return async (dispatch) => {
@@ -95,7 +98,7 @@ export const setValuesThunk = (address, id) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await dispatch(setValuesThunk(address, id));
     } else {
-      dispatch(setValuesAC(id, response.data.rates, response.data.timestamp));
+      dispatch(setValuesAC(id, response.data.rates));
 
       await dispatch(setValuesThunk(address, id));
     }
